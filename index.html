@@ -119,7 +119,7 @@
     <!-- Modal for adding custom product -->
     <div id="addProductModal" class="modal hidden">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
+            <span class="close-modal" id="closeModalX">&times;</span>
             <h3>הוספת מוצר</h3>
             <form id="addProductForm">
                 <div class="form-group">
@@ -132,7 +132,7 @@
                 </div>
                 <div class="form-actions">
                     <button type="submit" class="btn btn-primary">הוסף</button>
-                    <button type="button" class="btn btn-secondary close-modal">ביטול</button>
+                    <button type="button" class="btn btn-secondary" id="cancelAddProduct">ביטול</button>
                 </div>
             </form>
         </div>
@@ -149,5 +149,38 @@
     
     <!-- html2pdf -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <!-- Inline script to ensure modal closing works -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get the modal
+            var modal = document.getElementById('addProductModal');
+            
+            // Get the button that closes the modal
+            var closeX = document.getElementById('closeModalX');
+            var cancelBtn = document.getElementById('cancelAddProduct');
+            
+            // When the user clicks on <span> (x), close the modal
+            if (closeX) {
+                closeX.onclick = function() {
+                    modal.classList.add('hidden');
+                }
+            }
+            
+            // When the user clicks on cancel button, close the modal
+            if (cancelBtn) {
+                cancelBtn.onclick = function() {
+                    modal.classList.add('hidden');
+                }
+            }
+            
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.classList.add('hidden');
+                }
+            }
+        });
+    </script>
 </body>
 </html>
