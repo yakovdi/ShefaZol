@@ -12,6 +12,8 @@ const orderConfirmation = document.getElementById('orderConfirmation');
 const printOrderBtn = document.getElementById('printOrderBtn');
 const newOrderBtn = document.getElementById('newOrderBtn');
 const customerAddressInput = document.getElementById('customerAddress');
+const cancelAddProductBtn = document.getElementById('cancelAddProduct');
+const closeModalX = document.getElementById('closeModalX');
 
 // Global variables
 let selectedProducts = [];
@@ -72,27 +74,26 @@ function setupEventListeners() {
     // Add product form
     addProductForm.addEventListener('submit', handleAddProduct);
     
-    // Close modal buttons - FIXED: Changed to use onclick and function declaration
-    document.querySelectorAll('.close-modal').forEach(function(button) {
-        button.onclick = function() {
+    // Close modal with X button
+    if (closeModalX) {
+        closeModalX.addEventListener('click', function() {
             addProductModal.classList.add('hidden');
-        };
-    });
+        });
+    }
     
-    // Close modal when clicking on X
-    const closeButtons = document.getElementsByClassName('close-modal');
-    for (let i = 0; i < closeButtons.length; i++) {
-        closeButtons[i].onclick = function() {
+    // Close modal with Cancel button
+    if (cancelAddProductBtn) {
+        cancelAddProductBtn.addEventListener('click', function() {
             addProductModal.classList.add('hidden');
-        };
+        });
     }
     
     // Close modal when clicking outside
-    window.onclick = function(event) {
+    window.addEventListener('click', function(event) {
         if (event.target === addProductModal) {
             addProductModal.classList.add('hidden');
         }
-    };
+    });
     
     // Print order button
     printOrderBtn.addEventListener('click', printOrder);
