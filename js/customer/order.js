@@ -76,9 +76,21 @@ function setupEventListeners() {
     document.querySelectorAll('.close-modal').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
-            addProductModal.classList.add('hidden');
-            addProductForm.reset();
+            e.stopPropagation();
+            closeAddProductModal();
         });
+    });
+    
+    // Close modal when clicking outside
+    addProductModal.addEventListener('click', (e) => {
+        if (e.target === addProductModal) {
+            closeAddProductModal();
+        }
+    });
+    
+    // Prevent modal content from closing when clicking inside
+    document.querySelector('.modal-content').addEventListener('click', (e) => {
+        e.stopPropagation();
     });
     
     // Print order button
@@ -92,6 +104,12 @@ function setupEventListeners() {
         initializeEmptyProductsList();
         setMinDeliveryDate();
     });
+}
+
+// Function to close the add product modal
+function closeAddProductModal() {
+    addProductModal.classList.add('hidden');
+    addProductForm.reset();
 }
 
 // Handle adding custom product
@@ -119,9 +137,7 @@ function handleAddProduct(e) {
         updateOrderSummary();
         
         // Reset and close modal
-        document.getElementById('productName').value = '';
-        document.getElementById('productQuantity').value = 1;
-        addProductModal.classList.add('hidden');
+        closeAddProductModal();
     }
 }
 
