@@ -65,25 +65,40 @@ function setupEventListeners() {
     orderForm.addEventListener('submit', handleOrderSubmit);
     
     // Add product button
-    addProductBtn.addEventListener('click', () => {
+    addProductBtn.addEventListener('click', function() {
         addProductModal.classList.remove('hidden');
     });
     
     // Add product form
     addProductForm.addEventListener('submit', handleAddProduct);
     
-    // Close modal buttons
-    document.querySelectorAll('.close-modal').forEach(button => {
-        button.addEventListener('click', () => {
+    // Close modal buttons - FIXED: Changed to use onclick and function declaration
+    document.querySelectorAll('.close-modal').forEach(function(button) {
+        button.onclick = function() {
             addProductModal.classList.add('hidden');
-        });
+        };
     });
+    
+    // Close modal when clicking on X
+    const closeButtons = document.getElementsByClassName('close-modal');
+    for (let i = 0; i < closeButtons.length; i++) {
+        closeButtons[i].onclick = function() {
+            addProductModal.classList.add('hidden');
+        };
+    }
+    
+    // Close modal when clicking outside
+    window.onclick = function(event) {
+        if (event.target === addProductModal) {
+            addProductModal.classList.add('hidden');
+        }
+    };
     
     // Print order button
     printOrderBtn.addEventListener('click', printOrder);
     
     // New order button
-    newOrderBtn.addEventListener('click', () => {
+    newOrderBtn.addEventListener('click', function() {
         orderConfirmation.classList.add('hidden');
         orderForm.reset();
         selectedProducts = [];
@@ -159,22 +174,22 @@ function updateProductsList() {
     
     // Add event listeners for quantity buttons
     document.querySelectorAll('.increase').forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.getAttribute('data-id');
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
             increaseProductQuantity(productId);
         });
     });
     
     document.querySelectorAll('.decrease').forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.getAttribute('data-id');
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
             decreaseProductQuantity(productId);
         });
     });
     
     document.querySelectorAll('.remove-btn').forEach(button => {
-        button.addEventListener('click', () => {
-            const productId = button.getAttribute('data-id');
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
             removeProduct(productId);
         });
     });
