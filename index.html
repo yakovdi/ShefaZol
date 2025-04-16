@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>שפע-זול - מערכת הזמנות משלוחים</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/products.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Places API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places&language=iw" defer></script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-shopping-cart"></i> שפע-זול</h1>
+            <p>מערכת הזמנות משלוחים</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="order-form">
+            <h2>טופס הזמנה</h2>
+            <form id="orderForm">
+                <div class="form-group">
+                    <label for="customerName">שם מלא *</label>
+                    <input type="text" id="customerName" name="customerName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerPhone">טלפון *</label>
+                    <input type="tel" id="customerPhone" name="customerPhone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerEmail">דוא"ל</label>
+                    <input type="email" id="customerEmail" name="customerEmail">
+                </div>
+
+                <div class="form-group">
+                    <label for="customerAddress">כתובת *</label>
+                    <input type="text" id="customerAddress" name="customerAddress" placeholder="הזן כתובת" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="customerNumber">מספר לקוח (אם יש)</label>
+                    <input type="text" id="customerNumber" name="customerNumber">
+                </div>
+
+                <div class="form-group">
+                    <label for="deliveryDate">תאריך למשלוח *</label>
+                    <input type="date" id="deliveryDate" name="deliveryDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label>סוג משלוח *</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="deliveryType" value="delivery" checked> משלוח
+                        </label>
+                        <label>
+                            <input type="radio" name="deliveryType" value="pickup"> איסוף עצמי
+                        </label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="notes">הערות להזמנה</label>
+                    <textarea id="notes" name="notes" rows="3"></textarea>
+                </div>
+
+                <h3>בחירת מוצרים</h3>
+                <div id="productsList" class="products-list">
+                    <!-- Products will be added by the customer -->
+                </div>
+
+                <div class="form-group">
+                    <button type="button" id="addProductBtn" class="btn btn-primary">
+                        <i class="fas fa-plus"></i> הוסף מוצר
+                    </button>
+                </div>
+
+                <div class="order-summary">
+                    <h3>סיכום הזמנה</h3>
+                    <div id="orderSummary">
+                        <!-- Order summary will be displayed here -->
+                        <p>לא נבחרו מוצרים</p>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">שלח הזמנה</button>
+                    <button type="reset" class="btn btn-secondary">נקה טופס</button>
+                </div>
+            </form>
+        </section>
+
+        <div id="orderConfirmation" class="order-confirmation hidden">
+            <div class="confirmation-content">
+                <h2><i class="fas fa-check-circle"></i> ההזמנה התקבלה!</h2>
+                <p>תודה על הזמנתך. פרטי ההזמנה נשלחו אליך.</p>
+                <div class="confirmation-actions">
+                    <button id="printOrderBtn" class="btn btn-primary">
+                        <i class="fas fa-print"></i> הדפס הזמנה
+                    </button>
+                    <button id="newOrderBtn" class="btn btn-secondary">הזמנה חדשה</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 שפע-זול. כל הזכויות שמורות.</p>
+        </div>
+    </footer>
+
+    <!-- Modal for adding custom product -->
+    <div id="addProductModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h3>הוספת מוצר</h3>
+            <form id="addProductForm">
+                <div class="form-group">
+                    <label for="productName">שם המוצר</label>
+                    <input type="text" id="productName" name="productName" required>
+                </div>
+                <div class="form-group">
+                    <label for="productQuantity">כמות</label>
+                    <input type="number" id="productQuantity" name="productQuantity" min="1" value="1" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">הוסף</button>
+                    <button type="button" class="btn btn-secondary close-modal">ביטול</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/database.js"></script>
+    <script type="module" src="js/customer/places.js"></script>
+    <script type="module" src="js/customer/notifications.js"></script>
+    <script type="module" src="js/customer/order.js"></script>
+    
+    <!-- EmailJS -->
+    <script src="https://cdn.emailjs.com/sdk/2.6.4/email.min.js"></script>
+    
+    <!-- html2pdf -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</body>
+</html>
